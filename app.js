@@ -1,6 +1,7 @@
 function randomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
 const hours = [
   "6am",
   "7am",
@@ -18,44 +19,182 @@ const hours = [
   "7pm",
 ];
 
-const seattle = {
-  name: "seattle",
-  minCust: 23,
-  maxCust: 65,
-  avgSale: 6.3,
-  custPerHour: [],
-  CookiePerHour: [],
-  calcCustPerHour: function () {
-    for (let i = 0; i < hours.length; i++) {
-      let numCusts = randomNum(this.minCust, this.maxCust);
-      this.custPerHour.push(numCusts);
-    }
-    this.calcCookiesPerHour();
-  },
-  calcCookiesPerHour: function () {
-    for (let i = 0; i < this.custPerHour.length; i++) {
-      this.CookiePerHour.push(this.custPerHour[i] * this.avgSale);
-    }
-  },
+function CookieStore(name, mincust, maxcust, avgsale) {
+  this.name = name;
+  this.mincust = mincust;
+  this.maxcust = maxcust;
+  this.avgsale = avgsale;
+  this.CustPerHour = [];
+  this.CookiesPerHour = [];
+}
+
+CookieStore.prototype.calcCustPerHour = function () {
+  for (let i = 0; i < hours.length; i++) {
+    let numcust = randomNum(this.mincust, this.maxcust);
+    this.CustPerHour.push(numcust);
+  }
 };
 
-seattle.calcCustPerHour();
-console.log(seattle);
+CookieStore.prototype.calCookiesPerHour = function () {
+  for (let i = 0; i < this.CustPerHour; i++) {
+    let cookiessold = Math.floor(this.CustPerHour[i] * this.avgsale);
+    this.CookiesPerHour.push(cookiessold);
+  }
+};
+CookieStore.prototype.render = function () {
+  this.calcCustPerHour();
+  this.calCookiesPerHour();
 
-//make next list-cut and copy into render function() {everything outside of the object}
-const seattleDiv = document.getElementById("seattle");
-console.log(seattleDiv);
+  //table
+  const table = document.getElementById("myTable");
 
-const h2 = document.createElement("h2");
-h2.textContent = seattle.name;
-seattleDiv.appendChild(h2);
+  //table row
+  const tr = document.createElement("tr");
+  table.appendChild(tr);
 
-const ul = document.createElement("ul");
-seattleDiv.appendChild(ul);
+  //table cell
+  let td = document.createElement("td");
+  td.textContent = this.name;
+  tr.appendChild(td);
 
-for (let i = 0; i < seattle.CookiePerHour.length; i++) {
-  const li = document.createElement("li");
-  li.textContent = seattle.CookiePerHour[i] + "cookies";
-  ul.appendChild(li);
-  console.log(seattle.CookiePerHour[i]);
+  //get data into the row
+  for (let i = 0; i < this.CookiesPerHour; i++) {
+    td = document.createElement("td");
+    td.textContent = this.CookiesPerHour[i];
+    tr.appendChild(td);
+  }
+};
+function makeHeaderRow() {
+  //table
+  const table = document.getElementById("myTable");
+
+  //table row
+  const tr = document.createElement("tr");
+  table.appendChild(tr);
+
+  //starting cell
+  let th = document.createElement("th");
+  tr.appendChild(th);
+  //get data into the row
+  for (let i = 0; i < hours.length; i++) {
+    th = document.createElement("th");
+    th.textContent = hours[i];
+    tr.appendChild(th);
+  }
 }
+makeHeaderRow();
+{
+  const seattle = new CookieStore("Seattle", 23, 65, 6.3);
+  const tokyo = new CookieStore("tokyo", 3, 24, 1.2);
+  const dubai = new CookieStore("dubai", 11, 38, 3.7);
+  const paris = new CookieStore("paris", 20, 38, 2.3);
+  const lima = new CookieStore("lima", 2, 16, 4.6);
+  seattle.render();
+  tokyo.render();
+  dubai.render();
+  paris.render();
+  lima.render();
+}
+// function randomNum(min, max) {
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// }
+// const hours = [
+//   "6am",
+//   "7am",
+//   "8am",
+//   "9am",
+//   "10am",
+//   "11am",
+//   "12pm",
+//   "1pm",
+//   "2pm",
+//   "3pm",
+//   "4pm",
+//   "5pm",
+//   "6pm",
+//   "7pm",
+// ];
+
+// const seattle = {
+//   name: "seattle",
+//   minCust: 23,
+//   maxCust: 65,
+//   avgSale: 6.3,
+//   custPerHour: [],
+//   CookiePerHour: [],
+
+//   calcCustPerHour: function () {
+//     for (let i = 0; i < hours.length; i++) {
+//       let numCusts = randomNum(this.minCust, this.maxCust);
+//       this.custPerHour.push(numCusts);
+//     }
+//   },
+//   calcCookiesPerHour: function () {
+//     for (let i = 0; i < this.custPerHour.length; i++) {
+//       this.CookiePerHour.push(Math.floor(this.custPerHour[i] * this.avgSale));
+//     }
+//   },
+//   render: function () {
+//     this.calcCustPerHour();
+//     this.calcCookiesPerHour();
+
+//     const div = document.getElementById(this.name);
+
+//     const h2 = document.createElement("h2");
+//     h2.textContent = this.name;
+//     div.appendChild(h2);
+
+//     const ul = document.createElement("ul");
+//     div.appendChild(ul);
+
+//     for (let i = 0; i < this.CookiePerHour.length; i++) {
+//       const li = document.createElement("li");
+//       li.textContent = this.CookiePerHour[i] + "cookies";
+//       ul.appendChild(li);
+//     }
+//   },
+// };
+// const tokyo = {
+//   name: "tokyo",
+//   minCust: 23,
+//   maxCust: 65,
+//   avgSale: 6.3,
+//   custPerHour: [],
+//   CookiePerHour: [],
+
+//   calcCustPerHour: function () {
+//     for (let i = 0; i < hours.length; i++) {
+//       let numCusts = randomNum(this.minCust, this.maxCust);
+//       this.custPerHour.push(numCusts);
+//     }
+//   },
+//   calcCookiesPerHour: function () {
+//     for (let i = 0; i < this.custPerHour.length; i++) {
+//       this.CookiePerHour.push(Math.floor(this.custPerHour[i] * this.avgSale));
+//     }
+//   },
+//   render: function () {
+//     this.calcCustPerHour();
+//     this.calcCookiesPerHour();
+
+//     const div = document.getElementById(this.name);
+
+//     const h2 = document.createElement("h2");
+//     h2.textContent = this.name;
+//     div.appendChild(h2);
+
+//     const ul = document.createElement("ul");
+//     div.appendChild(ul);
+
+//     for (let i = 0; i < this.CookiePerHour.length; i++) {
+//       const li = document.createElement("li");
+//       li.textContent = this.CookiePerHour[i] + "cookies";
+//       ul.appendChild(li);
+//     }
+//   },
+// };
+
+// //make next list-cut and copy into render function() {everything outside of the object}
+
+// seattle.render();
+// tokyo.render();
