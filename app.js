@@ -36,7 +36,7 @@ CookieStore.prototype.calcCustPerHour = function () {
 };
 
 CookieStore.prototype.calCookiesPerHour = function () {
-  for (let i = 0; i < this.CustPerHour; i++) {
+  for (let i = 0; i < this.CustPerHour.length; i++) {
     let cookiessold = Math.floor(this.CustPerHour[i] * this.avgsale);
     this.CookiesPerHour.push(cookiessold);
   }
@@ -58,7 +58,8 @@ CookieStore.prototype.render = function () {
   tr.appendChild(td);
 
   //get data into the row
-  for (let i = 0; i < this.CookiesPerHour; i++) {
+  console.log(this.CookiesPerHour);
+  for (let i = 0; i < this.CookiesPerHour.length; i++) {
     td = document.createElement("td");
     td.textContent = this.CookiesPerHour[i];
     tr.appendChild(td);
@@ -83,18 +84,57 @@ function makeHeaderRow() {
   }
 }
 makeHeaderRow();
-{
-  const seattle = new CookieStore("Seattle", 23, 65, 6.3);
-  const tokyo = new CookieStore("tokyo", 3, 24, 1.2);
-  const dubai = new CookieStore("dubai", 11, 38, 3.7);
-  const paris = new CookieStore("paris", 20, 38, 2.3);
-  const lima = new CookieStore("lima", 2, 16, 4.6);
-  seattle.render();
-  tokyo.render();
-  dubai.render();
-  paris.render();
-  lima.render();
+
+const seattle = new CookieStore("Seattle", 23, 65, 6.3);
+const tokyo = new CookieStore("tokyo", 3, 24, 1.2);
+const dubai = new CookieStore("dubai", 11, 38, 3.7);
+const paris = new CookieStore("paris", 20, 38, 2.3);
+const lima = new CookieStore("lima", 2, 16, 4.6);
+seattle.render();
+tokyo.render();
+dubai.render();
+paris.render();
+lima.render();
+
+//insert row
+
+//Event listeners
+
+const form = document.getElementById("new-store-form");
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const storeNameInput = event.target.name.value;
+  const mincustInput = event.target.mincust.value;
+  const maxcustInput = event.target.maxcust.value;
+  const avgcookieInput = event.target.avgcookie.value;
+
+  console.log(storeNameInput);
+  console.log(mincustInput);
+  console.log(maxcustInput);
+  console.log(avgcookieInput);
+
+  form.reset();
+  const newStore = new CookieStore(
+    storeNameInput,
+    mincustInput,
+    maxcustInput,
+    avgcookieInput
+  );
+  newStore.render();
+});
+
+function mySum() {
+  let rows = document.querySelectorAll("CookiesPerHour");
+  let mySum = 0;
+  for (let i = 0; i < CookiesPerHour.length - 1; i++) {
+    sum += Number(CookiesPerHour[i].textContent);
+  }
+
+  document.getElementById("mySum").textContent = sum;
 }
+
 // function randomNum(min, max) {
 //   return Math.floor(Math.random() * (max - min + 1) + min);
 // }

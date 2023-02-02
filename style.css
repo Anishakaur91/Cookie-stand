@@ -2,14 +2,67 @@ body {
   background-color: pink;
   color: white;
   font-family: monospace;
+  width: 960px;
+  margin: 0 auto;
+}
+img:hover {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
-a {
-  color: white;
+h1 {
+  text-shadow: 10px;
+  text-size-adjust: 20px;
+  color: teal;
+  text-align: center;
+}
+h2 {
+  font-family: sans-serif;
+  color: maroon;
+}
+label {
+  color: blueviolet;
 }
 
 td,
 th {
   border: 1px solid #fff;
   padding: 0.5rem;
+}
+td,
+th {
+  color: black;
+  border-color: red;
+  border-radius: 20px;
+}
+footer {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 20px;
+}
+section {
+  flex-direction: row;
+
+  align-items: center;
+  display: flex;
+  height: 300px;
+  width: 200px;
+}
+fieldset {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  border-color: black;
+}
+button {
+  margin-top: 2rem;
+}
+form {
+  background-color: bisque;
+}
+legend {
+  font-size: larger;
+  height: 2rem;
+  color: goldenrod;
+  text-align: center;
 }
