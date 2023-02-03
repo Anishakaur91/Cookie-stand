@@ -57,13 +57,21 @@ CookieStore.prototype.render = function () {
   td.textContent = this.name;
   tr.appendChild(td);
 
+  let total = 0;
+
   //get data into the row
   console.log(this.CookiesPerHour);
   for (let i = 0; i < this.CookiesPerHour.length; i++) {
     td = document.createElement("td");
     td.textContent = this.CookiesPerHour[i];
     tr.appendChild(td);
+
+    total = total + this.CookiesPerHour[i];
   }
+  //total cell
+  td = document.createElement("td");
+  td.textContent = total;
+  tr.appendChild(td);
 };
 function makeHeaderRow() {
   //table
@@ -82,6 +90,10 @@ function makeHeaderRow() {
     th.textContent = hours[i];
     tr.appendChild(th);
   }
+  //total cell
+  th = document.createElement("th");
+  th.textContent = "Totals";
+  tr.appendChild(th);
 }
 makeHeaderRow();
 
@@ -124,16 +136,6 @@ form.addEventListener("submit", function (event) {
   );
   newStore.render();
 });
-
-function mySum() {
-  let rows = document.querySelectorAll("CookiesPerHour");
-  let mySum = 0;
-  for (let i = 0; i < CookiesPerHour.length - 1; i++) {
-    sum += Number(CookiesPerHour[i].textContent);
-  }
-
-  document.getElementById("mySum").textContent = sum;
-}
 
 // function randomNum(min, max) {
 //   return Math.floor(Math.random() * (max - min + 1) + min);
